@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Vote for Your Favorite Option</h1>
+        <button id="login-btn">Login with Google</button>
+        <form id="voteForm" style="display: none;">
+            <label>
+                <input type="radio" name="vote" value="Option1"> Option 1
+            </label>
+            <label>
+                <input type="radio" name="vote" value="Option2"> Option 2
+            </label>
+            <label>
+                <input type="radio" name="vote" value="Option3"> Option 3
+            </label>
+            <button type="submit">Vote</button>
+        </form>
+        <div id="results">
+            <h2>Results</h2>
+            <div id="Option1" class="result">
+                <span>Option 1</span>
+                <div class="progress-bar">
+                    <div class="progress" id="progress-Option1"></div>
+                </div>
+                <span class="percentage" id="percentage-Option1">0%</span>
+            </div>
+            <div id="Option2" class="result">
+                <span>Option 2</span>
+                <div class="progress-bar">
+                    <div class="progress" id="progress-Option2"></div>
+                </div>
+                <span class="percentage" id="percentage-Option2">0%</span>
+            </div>
+            <div id="Option3" class="result">
+                <span>Option 3</span>
+                <div class="progress-bar">
+                    <div class="progress" id="progress-Option3"></div>
+                </div>
+                <span class="percentage" id="percentage-Option3">0%</span>
+            </div>
+        </div>
+    </div>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app-compat.js"></script>
+    <!-- Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth-compat.js"></script>
+    <!-- Firebase Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore-compat.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
