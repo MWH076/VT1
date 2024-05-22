@@ -14,6 +14,9 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 const loginButton = document.getElementById('login-btn');
+const logoutButton = document.getElementById('logout-btn');
+const userInfo = document.getElementById('user-info');
+const userEmail = document.getElementById('user-email');
 const voteForm = document.getElementById('voteForm');
 const resultsContainer = document.getElementById('results');
 
@@ -27,13 +30,27 @@ loginButton.addEventListener('click', () => {
     });
 });
 
+logoutButton.addEventListener('click', () => {
+    auth.signOut().then(() => {
+        loginButton.style.display = 'block';
+        logoutButton.style.display = 'none';
+        userEmail.textContent = '';
+        voteForm.style.display = 'none';
+    }).catch(error => {
+        console.error(error);
+    });
+});
+
 function checkIfUserHasVoted(userId) {
     db.collection('votes').doc(userId).get().then(doc => {
         if (doc.exists) {
             alert('You have already voted!');
+            showLoggedInState(auth.currentUser);
         } else {
             voteForm.style.display = 'block';
             loginButton.style.display = 'none';
+            logoutButton.style.display = 'block';
+            userEmail.textContent = auth.currentUser.email;
         }
     });
 }
@@ -97,7 +114,20 @@ function showResults() {
 auth.onAuthStateChanged(user => {
     if (user) {
         checkIfUserHasVoted(user.uid);
+        showLoggedInState(user);
     }
 });
 
 document.addEventListener('DOMContentLoaded', showResults);
+
+function showLoggedInState(user) {
+    if (user) {
+        loginButton.style.display = 'none';
+        logoutButton.style.display = 'block';
+        userEmail.textContent = user.email;
+    } else {
+        loginButton.style.display = 'block';
+        logoutButton.style.display = 'none';
+        userEmail.textContent = '';
+    }
+}
