@@ -56,12 +56,25 @@ voteForm.addEventListener('submit', event => {
 
 function updateVoteCount(selectedOption) {
     const optionDoc = db.collection('options').doc(selectedOption);
-    optionDoc.update({
-        count: firebase.firestore.FieldValue.increment(1)
-    }).then(() => {
-        alert('Vote recorded successfully!');
-        voteForm.style.display = 'none';
-        showResults();
+
+    optionDoc.get().then((docSnapshot) => {
+        if (docSnapshot.exists) {
+            optionDoc.update({
+                count: firebase.firestore.FieldValue.increment(1)
+            }).then(() => {
+                alert('Vote recorded successfully!');
+                voteForm.style.display = 'none';
+                showResults();
+            });
+        } else {
+            optionDoc.set({ count: 1 }).then(() => {
+                alert('Vote recorded successfully!');
+                voteForm.style.display = 'none';
+                showResults();
+            });
+        }
+    }).catch(error => {
+        console.error('Error updating vote count:', error);
     });
 }
 
